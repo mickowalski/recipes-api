@@ -22,7 +22,7 @@ repo_url = "https://github.com/mickowalski/recipes-api.git"
 
 git = Github(auth=Auth.Token(token)) if token else Github()
 full_repo_name = os.getenv("REPOSITORY")
-pr_number = os.getenv("PR_NUMBER")
+pr_number = int(os.getenv("PR_NUMBER"))
 repo = git.get_repo(full_repo_name)
 
 context_agent_system_prompt = """
@@ -64,7 +64,7 @@ Once a review is generated, you need to run a final check and post it to GitHub.
 """
 
 
-def get_pr_details(pr_number: int) -> dict:
+def get_pr_details() -> dict:
     """retrieves Pull Request details from repository"""
     commit_shas = []
     pr = repo.get_pull(pr_number)
@@ -89,7 +89,7 @@ def get_pr_details(pr_number: int) -> dict:
 pr_details_tool = FunctionTool.from_defaults(get_pr_details)
 
 
-def get_changed_files(pr_number: int) -> list[dict[str, Any]]:
+def get_changed_files() -> list[dict[str, Any]]:
     """Retrieve all changed files and their patches from the complete pull request."""
     pr = repo.get_pull(pr_number)
     return [
@@ -152,9 +152,10 @@ async def add_final_review(ctx: Context, final_review: str) -> str:
 add_final_review_tool = FunctionTool.from_defaults(add_final_review)
 
 
-async def post_final_review(pr_number: int, final_review: str) -> str:
+async def post_final_review(final_review: str) -> str:
     """posts final review for PR to GitHub"""
     pr = repo.get_pull(pr_number)
+    print(f"posting final review for PR {pr.number}")
     pr.create_review(body=final_review)
     return "Pull request updated with final review"
 
