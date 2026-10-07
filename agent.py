@@ -16,7 +16,7 @@ load_dotenv()
 
 token = os.getenv("GITHUB_TOKEN")
 api_key = os.getenv("OPENAI_API_KEY")
-api_base = os.getenv("OPENAI_API_URL")
+api_base = os.getenv("OPENAI_BASE_URL")
 
 repo_url = "https://github.com/mickowalski/recipes-api.git"
 
@@ -208,7 +208,7 @@ workflow_agent = AgentWorkflow(
 async def main():
     query = f"Write a review for PR number {pr_number}"
     prompt = RichPromptTemplate(query)
-
+    print(prompt)
     handler = workflow_agent.run(prompt.format())
 
     current_agent = None
