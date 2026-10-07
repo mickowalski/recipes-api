@@ -21,8 +21,9 @@ api_base = os.getenv("OPENAI_API_URL")
 repo_url = "https://github.com/mickowalski/recipes-api.git"
 
 git = Github(auth=Auth.Token(token)) if token else Github()
-repo = os.getenv("REPOSITORY")
+full_repo_name = os.getenv("REPOSITORY")
 pr_number = os.getenv("PR_NUMBER")
+repo = git.get_repo(full_repo_name)
 
 context_agent_system_prompt = """
 You are the context gathering agent. When gathering context, you MUST gather \n: 
