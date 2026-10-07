@@ -16,7 +16,7 @@ load_dotenv()
 
 token = os.getenv("GITHUB_TOKEN")
 
-model = os.getenv("gpt-4o-mini")
+model = "gpt-4o-mini"
 api_key = os.getenv("OPENAI_API_KEY")
 api_base = os.getenv("OPENAI_API_URL")
 
