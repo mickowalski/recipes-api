@@ -15,8 +15,6 @@ from llama_index.llms.openai import OpenAI
 load_dotenv()
 
 token = os.getenv("GITHUB_TOKEN")
-
-model = "gpt-4o-mini"
 api_key = os.getenv("OPENAI_API_KEY")
 api_base = os.getenv("OPENAI_API_URL")
 
@@ -163,7 +161,7 @@ async def post_final_review(pr_number: int, final_review: str) -> str:
 post_final_review_tool = FunctionTool.from_defaults(post_final_review)
 
 llm = OpenAI(
-    model=model,
+    model="gpt-4o-mini",
     api_key=api_key,
     api_base=api_base,
 )
