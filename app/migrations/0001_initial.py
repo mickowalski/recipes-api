@@ -3,8 +3,8 @@
 from django.db import migrations, models
 
 
+# Just comment
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
