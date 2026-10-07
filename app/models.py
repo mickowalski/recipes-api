@@ -11,7 +11,7 @@ class Recipe(models.Model):
     def __str__(self):
         return self.title
 
-
+#Run forest run
 class RecipeRating(models.Model):
     recipe = models.ForeignKey(
         Recipe, on_delete=models.CASCADE, related_name="ratings"
