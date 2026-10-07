@@ -156,8 +156,11 @@ async def post_final_review(final_review: str) -> str:
     """posts final review for PR to GitHub"""
     pr = repo.get_pull(pr_number)
     print(f"posting final review for PR {pr.number}")
-    pr.create_review(body=final_review)
-    return "Pull request updated with final review"
+    review = pr.create_review(body=final_review, event="COMMENT")
+    if review.state != "COMMENTED":
+        raise RuntimeError(f"Review was not published: state={review.state}")
+    print(f"Published review: {review.html_url}")
+    return f"Final review published: {review.html_url}"
 
 
 post_final_review_tool = FunctionTool.from_defaults(post_final_review)
